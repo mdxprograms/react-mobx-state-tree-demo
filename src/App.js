@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { Checkbox, Divider, Input, Layout, List, notification } from "antd";
+import {
+  Checkbox,
+  Divider,
+  Icon,
+  Input,
+  Layout,
+  List,
+  notification
+} from "antd";
 import TodoStore from "./stores/TodoStore";
 
 import "antd/dist/antd.css";
@@ -14,6 +22,7 @@ class App extends Component {
   handleAddTodo = e => {
     if (e.key === "Enter") {
       this.todoStore.addTodo({
+        id: Math.floor(Math.random() * 100) + 1,
         title: e.currentTarget.value,
         done: false
       });
@@ -49,9 +58,12 @@ class App extends Component {
             dataSource={this.todoStore.todos}
             size="large"
             renderItem={todo => (
-              <List.Item onClick={todo.toggleDone} key={todo.title}>
-                <Checkbox checked={todo.done} />
+              <List.Item key={todo.id}>
+                <Checkbox onClick={todo.toggleDone} checked={todo.done} />
                 <span>{todo.title}</span>
+                <button onClick={() => this.todoStore.deleteTodo(todo.id)}>
+                  <Icon type="delete" />
+                </button>
               </List.Item>
             )}
           />

@@ -2,6 +2,7 @@ import { types } from "mobx-state-tree";
 
 const Todo = types
   .model("Todo", {
+    id: types.number,
     title: "",
     done: false
   })
@@ -26,6 +27,9 @@ const TodoStore = types
   .actions(self => ({
     addTodo(todo) {
       self.todos.push(todo);
+    },
+    deleteTodo(id) {
+      self.todos = self.todos.filter(t => t.id !== id);
     }
   }));
 
